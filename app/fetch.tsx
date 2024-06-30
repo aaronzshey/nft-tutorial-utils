@@ -1,12 +1,12 @@
 "use server";
-export default async function getData(): Promise<{
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}> {
+
+import { polygonResponseType, polygonData } from "./polygonType";
+
+export default async function getData(): Promise<polygonResponseType> {
   try {
-    const resp = await fetch("https://jsonplaceholder.typicode.com/posts/1");
+    const resp = await fetch(
+      `https://api.polygon.io/v2/aggs/ticker/X:ETHUSD/prev?adjusted=true&apiKey=${process.env.POLYGON_KEY}`,
+    );
     if (!resp.ok) {
       throw new Error("Failed to fetch data");
     }

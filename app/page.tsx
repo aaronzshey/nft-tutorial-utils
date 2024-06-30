@@ -4,19 +4,21 @@ import React from "react";
 import nextLogo from "../public/next.svg";
 import vercelLogo from "../public/vercel.svg";
 import polygonLogo from "../public/polygon-io.svg";
+import alchemyLogo from "../public/alchemy.svg";
 import getData from "./fetch";
 import { useState, useEffect } from "react";
 import { Center, Box } from "@chakra-ui/react";
+
+import { polygonResponseType, polygonData } from "./polygonType";
 
 function App() {
   const [data, setData] = useState(0);
 
   const showData = async () => {
-    const data: { userId: number; id: number; title: string; body: string } =
-      await getData();
-    console.log(data.userId);
-    const userId = data.userId;
-    setData(userId);
+    const data: polygonResponseType = await getData();
+    console.log(data.results);
+    const results = data.results[0].c;
+    setData(results);
   };
 
   useEffect(() => {
@@ -45,6 +47,11 @@ function App() {
           <Image
             src={polygonLogo}
             alt="Polygon.io Logo"
+            className="max-h-full w-1/12"
+          />
+          <Image
+            src={alchemyLogo}
+            alt="Alchemy Logo"
             className="max-h-full w-1/12"
           />
         </Box>
