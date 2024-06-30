@@ -1,5 +1,10 @@
 "use server";
-export default async function getData(): Promise<string> {
+export default async function getData(): Promise<{
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+}> {
   try {
     const resp = await fetch("https://jsonplaceholder.typicode.com/posts/1");
     if (!resp.ok) {

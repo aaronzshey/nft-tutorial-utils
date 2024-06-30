@@ -6,10 +6,11 @@ import { useState, useEffect } from "react";
 import { Center, Box } from "@chakra-ui/react";
 
 function App() {
-  const [data, setData] = useState("");
+  const [data, setData] = useState(0);
 
   const showData = async () => {
-    const data = await getData();
+    const data: { userId: number; id: number; title: string; body: string } =
+      await getData();
     console.log(data.userId);
     const userId = data.userId;
     setData(userId);
