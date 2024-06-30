@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import getData from "./fetch.tsx";
+import getData from "./fetch";
 import { useState, useEffect } from "react";
 
 function App() {
