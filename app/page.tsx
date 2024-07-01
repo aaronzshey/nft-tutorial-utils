@@ -7,7 +7,7 @@ import polygonLogo from "../public/polygon-io.svg";
 import alchemyLogo from "../public/alchemy.svg";
 import getData from "./fetch";
 import { useState, useEffect } from "react";
-import { Center, Box, HStack, StackDivider } from "@chakra-ui/react";
+import { Center, Box, HStack, VStack } from "@chakra-ui/react";
 
 import { polygonResponseType, polygonData } from "./polygonType";
 
@@ -30,13 +30,34 @@ function App() {
       <Center className="h-screen w-screen" id="wrapper">
         <Center className="h-1/2 w-1/2 bg-slate-300">{data}</Center>
 
-        <Box
+        <VStack
           id="footer-parent"
-          className="left-0 bottom-0 w-screen h-12 fixed bg-gradient-to-r from-black via-white to-white pt-0.5"
+          spacing={0}
+          align="stretch"
+          className="z-0 left-0 bottom-0 w-screen h-1/12 absolute"
         >
+          <Box
+            id="animated-ribbon"
+            className="h-px transition-all duration-1000"
+            background="linear-gradient(to right, black, black, black, white, white)"
+            backgroundSize="200% 200%"
+            backgroundPosition="100% 100%"
+          ></Box>
+
           <HStack
-            className="w-screen inline-flex inherit bg-white"
+            className="z-10 left-0 bottom-0 w-screen "
             spacing="10px"
+            id="footer"
+            onMouseEnter={() => {
+              document.getElementById(
+                "animated-ribbon",
+              ).style.backgroundPosition = "0% 0%";
+            }}
+            onMouseLeave={() => {
+              document.getElementById(
+                "animated-ribbon",
+              ).style.backgroundPosition = "100% 100%";
+            }}
           >
             <Image
               src={nextLogo}
@@ -59,7 +80,7 @@ function App() {
               className="max-h-full w-1/12 p-4"
             />
           </HStack>
-        </Box>
+        </VStack>
       </Center>
     </>
   );
