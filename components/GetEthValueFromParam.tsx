@@ -26,7 +26,7 @@ this is what I have.
 
 export default function GetEthValueFromParam({ ethConversionRate }) {
   const [ethValue, setEthValue] = useState(0.001);
-
+  const [paramValue, setParamValue] = useState(0.001);
   // @ts-ignore: Object is possibly 'null'.
   // yeah this is dangerous I'm so done with this stupid next compiler getting in my way
   const ethValueRawFromParams = useSearchParams().get("ethValue");
@@ -34,6 +34,7 @@ export default function GetEthValueFromParam({ ethConversionRate }) {
   useEffect(() => {
     if (ethValueRawFromParams) {
       setEthValue(+ethValueRawFromParams);
+      setParamValue(+ethValueRawFromParams);
     }
 
     getMarketCloseTime();
@@ -60,7 +61,7 @@ export default function GetEthValueFromParam({ ethConversionRate }) {
     e.preventDefault();
     const ethFormValue = e.currentTarget.value;
     console.log(e.currentTarget.value);
-
+    setParamValue(0);
     !isNaN(+ethFormValue) ? setEthValue(+ethFormValue) : setEthValue(0);
   }
 
@@ -80,7 +81,7 @@ export default function GetEthValueFromParam({ ethConversionRate }) {
             <FormControl>
               <Input
                 className="focus: outline-none text-right w-44 overflow-x-scroll border-b-2 border-black bg-transparent caret-color: currentColor;"
-                defaultValue={ethValue}
+                value={paramValue == 0 ? ethValue : paramValue}
                 onChange={handleForm}
               />
             </FormControl>
