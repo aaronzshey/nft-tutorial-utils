@@ -117,7 +117,7 @@ export default function GetEthValueFromParam({ ethConversionRate }) {
           <Text
             className="font-light text-xs cursor-copy hover:underline"
             onClick={() =>
-              copy("eth-tutorial-utils.vercel.app/?ethValue=" + ethValue)
+              copy("nft-tutorial-utils.vercel.app/?ethValue=" + ethValue)
             }
           >
             Click here to copy a share link to the current value.
