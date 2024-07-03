@@ -76,13 +76,15 @@ export default function GetEthValueFromParam({ ethConversionRate }) {
         {/* this hstack contains the main data area */}
 
         <HStack>
-          <FormControl>
-            <Input
-              className="focus: outline-none text-right w-44 overflow-x-scroll border-b-2 border-black bg-transparent caret-color: currentColor;"
-              defaultValue={ethValue}
-              onChange={handleForm}
-            />
-          </FormControl>
+          <Suspense>
+            <FormControl>
+              <Input
+                className="focus: outline-none text-right w-44 overflow-x-scroll border-b-2 border-black bg-transparent caret-color: currentColor;"
+                defaultValue={ethValue}
+                onChange={handleForm}
+              />
+            </FormControl>
+          </Suspense>
           <Image
             src={ethereumLogo}
             alt="Ethereum Logo"
@@ -90,8 +92,9 @@ export default function GetEthValueFromParam({ ethConversionRate }) {
             width="100"
             height="100"
           />
-
-          <Text>= ${(ethConversionRate * ethValue).toFixed(3)}</Text>
+          <Suspense>
+            <Text>= ${(ethConversionRate * ethValue).toFixed(3)}</Text>
+          </Suspense>
         </HStack>
         <Text className="font-light text-sm">
           Conversion rate from closing price on{" "}
@@ -99,14 +102,16 @@ export default function GetEthValueFromParam({ ethConversionRate }) {
           {marketCloseTime.toLocaleTimeString()},{" "}
           {marketCloseTime.toString().match(/\(.*\)/g)}.
         </Text>
-        <Text
-          className="font-light text-xs cursor-copy hover:underline"
-          onClick={() =>
-            copy("eth-tutorial-utils.vercel.app/?ethValue=" + ethValue)
-          }
-        >
-          Click here to copy a share link to the current value.
-        </Text>
+        <Suspense>
+          <Text
+            className="font-light text-xs cursor-copy hover:underline"
+            onClick={() =>
+              copy("eth-tutorial-utils.vercel.app/?ethValue=" + ethValue)
+            }
+          >
+            Click here to copy a share link to the current value.
+          </Text>
+        </Suspense>
       </VStack>
     </Suspense>
   );

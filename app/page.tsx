@@ -16,6 +16,7 @@ import Footer from "../components/Footer";
 
 import dynamic from "next/dynamic";
 
+//i have no idea what the problem is anymore
 const GetEthValueFromParam = dynamic(
   () => import("../components/GetEthValueFromParam"),
   {
