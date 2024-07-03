@@ -79,6 +79,11 @@ export default function GetEthValueFromParam({ ethConversionRate }) {
         <HStack>
           <Suspense>
             <FormControl>
+              {/* the below ternary operator is necessary because I was running into an issue where the calculation was correct,
+              but the value displayed in the form was not.  This was because while the value was calculated correctly, the form was being
+              rendered before the value could make its way into it.  Thus, by introducing two discrete variables and letting them take
+              precedence over each other intelligently, the param value or default value wil be displayed correctly*/}
+
               <Input
                 className="focus: outline-none text-right w-44 overflow-x-scroll border-b-2 border-black bg-transparent caret-color: currentColor;"
                 value={paramValue == 0 ? ethValue : paramValue}
