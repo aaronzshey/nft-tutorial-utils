@@ -1,71 +1,62 @@
 "use client";
-import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+//react imports
 import React from "react";
-import { Suspense, ChangeEvent } from "react";
-import nextLogo from "../public/next.svg";
-import vercelLogo from "../public/vercel.svg";
-import polygonLogo from "../public/polygon-io.svg";
-import alchemyLogo from "../public/alchemy.svg";
-import ethereumLogo from "../public/ethereum.svg";
-import getData from "./fetch";
-import { useState, useEffect } from "react";
-import {
-  Center,
-  Box,
-  HStack,
-  VStack,
-  Text,
-  FormControl,
-  Input,
-  AbsoluteCenter,
-} from "@chakra-ui/react";
 
+//library imports
+import { useSearchParams } from "next/navigation";
+import { Suspense, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
+
+//local imports
+import Image from "next/image";
+import ethereumLogo from "../public/ethereum.svg";
 import { polygonResponseType } from "./polygonType";
+import fetchEthConversionRate from "./fetchEthConversionRate";
+
+//component imports
+import { Center, Text, FormControl, Input } from "@chakra-ui/react";
+import Footer from "../components/Footer";
 
 function App() {
-  const [polygonResponse, setPolygonResponse] = useState(
-    {} as polygonResponseType,
-  );
+  const [ethConversionRate, setEthConversionRate] = useState(0);
+  const [ethValue, setEthValue] = useState(0.001);
 
-  const [formResponse, setFormResponse] = useState({});
   /* TODO: export this into a component */
   let ethValueRaw = useSearchParams().get("ethValue");
-  let ethValue = 0.001;
   if (ethValueRaw) {
-    ethValue = parseFloat(ethValueRaw);
+    setEthValue(parseFloat(ethValueRaw));
   }
 
-  const getPolygonResponse = async () => {
-    const polygonResponse: polygonResponseType = await getData();
-    setPolygonResponse(polygonResponse);
+  const getEthConversionRate = async () => {
+    const ethConversionRateRaw: polygonResponseType =
+      await fetchEthConversionRate();
+    if (!ethConversionRateRaw.results) {
+      setEthConversionRate(0);
+    } else {
+      setEthConversionRate(ethConversionRateRaw.results[0].c);
+    }
   };
 
   useEffect(() => {
-    getPolygonResponse();
+    getEthConversionRate();
   }, []);
-
-  let ethInUSD: number;
-
-  if (!polygonResponse.results) {
-    ethInUSD = 0;
-  } else {
-    ethInUSD = polygonResponse.results[0].c;
-  }
 
   //https://stackoverflow.com/a/72415437/12981681
   function handleForm(e: ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
+    const ethFormValue = e.currentTarget.value;
     console.log(e.currentTarget.value);
+
+    !isNaN(+ethFormValue) ? setEthValue(+ethFormValue) : setEthValue(0);
   }
   return (
     <Suspense>
       <>
         <Center className="h-screen w-screen" id="wrapper">
-          <Center className="h-screen w-screen font-black text-6xl bg-radial-gradient outline-black outline-1">
+          <Center className="h-screen w-screen font-black text-6xl bg-radial-gradient">
             <FormControl>
               <Input
-                className="text-right w-44 overflow-x-scroll border-b-2 border-black bg-transparent"
+                className="focus: outline-none text-right w-44 overflow-x-scroll border-b-2 border-black bg-transparent caret-color: currentColor;"
                 defaultValue="0.001"
                 onChange={handleForm}
               />
@@ -77,61 +68,11 @@ function App() {
               width="100"
               height="100"
             />
-            <Text>= ${(ethInUSD * ethValue).toFixed(3)}</Text>
+            <Text>= ${(ethConversionRate * ethValue).toFixed(3)}</Text>
           </Center>
-
-          <VStack
-            id="footer-parent"
-            spacing={0}
-            align="stretch"
-            className="z-0 left-0 bottom-0 w-screen h-1/12 absolute"
-          >
-            <Box
-              id="animated-ribbon"
-              className="h-px transition-all duration-1000"
-              background="linear-gradient(to right, black, black, black, white, white)"
-              backgroundSize="200% 200%"
-              backgroundPosition="100% 100%"
-            ></Box>
-
-            <HStack
-              className="z-10 left-0 bottom-0 w-screen "
-              spacing="10px"
-              id="footer"
-              onMouseEnter={() => {
-                document.getElementById(
-                  "animated-ribbon",
-                ).style.backgroundPosition = "0% 0%";
-              }}
-              onMouseLeave={() => {
-                document.getElementById(
-                  "animated-ribbon",
-                ).style.backgroundPosition = "100% 100%";
-              }}
-            >
-              <Image
-                src={nextLogo}
-                alt="Next.js Logo"
-                className="h-auto  w-1/12 pl-1"
-              />
-              <Image
-                src={vercelLogo}
-                alt="Vercel Logo"
-                className="h-auto w-1/12 p-4"
-              />
-              <Image
-                src={polygonLogo}
-                alt="Polygon.io Logo"
-                className="h-auto w-1/12 p-4"
-              />
-              <Image
-                src={alchemyLogo}
-                alt="Alchemy Logo"
-                className="max-h-full w-1/12 p-4"
-              />
-            </HStack>
-          </VStack>
         </Center>
+
+        <Footer />
       </>
     </Suspense>
   );
