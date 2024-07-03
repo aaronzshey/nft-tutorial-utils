@@ -94,7 +94,12 @@ export default function GetEthValueFromParam({ ethConversionRate }) {
             height="100"
           />
           <Suspense>
-            <Text>= ${(ethConversionRate * ethValue).toFixed(3)}</Text>
+            <Text>
+              = $
+              {(
+                ethConversionRate * (paramValue == 0 ? ethValue : paramValue)
+              ).toFixed(3)}
+            </Text>
           </Suspense>
         </HStack>
         <Text className="font-light text-sm">
