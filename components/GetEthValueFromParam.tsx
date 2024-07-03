@@ -26,7 +26,10 @@ this is what I have.
 
 export default function GetEthValueFromParam({ ethConversionRate }) {
   const [ethValue, setEthValue] = useState(0.001);
-  const ethValueRawFromParams = useSearchParams().get("ethValue");
+
+  //seriously what the heck is the next compiler.  useSearchParams could be null?  don't you think I already handled that?
+  const p = useSearchParams() || new URLSearchParams();
+  const ethValueRawFromParams = p.get("ethValue");
   //this function will only run once, on load.  if no params are present, default to 0.001
   useEffect(() => {
     if (ethValueRawFromParams) {

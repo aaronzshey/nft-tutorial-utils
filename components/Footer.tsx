@@ -1,3 +1,4 @@
+"use client";
 import { Box, HStack, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 
@@ -27,12 +28,16 @@ export default function Footer() {
         spacing="10px"
         id="footer"
         onMouseEnter={() => {
-          document.getElementById("animated-ribbon").style.backgroundPosition =
-            "0% 0%";
+          let ribbon = document.getElementById("animated-ribbon");
+          if (ribbon) {
+            ribbon.style.backgroundPosition = "0% 0%";
+          }
         }}
         onMouseLeave={() => {
-          document.getElementById("animated-ribbon").style.backgroundPosition =
-            "100% 100%";
+          let ribbon = document.getElementById("animated-ribbon");
+          if (ribbon) {
+            ribbon.style.backgroundPosition = "100% 100%";
+          }
         }}
       >
         <Image

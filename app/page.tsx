@@ -3,7 +3,7 @@
 import React from "react";
 
 //library imports
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 
 //local imports
 import { polygonResponseType } from "./polygonType";
@@ -12,7 +12,16 @@ import fetchPolygonResponse from "./fetchPolygonResponse";
 //component imports
 import { Center } from "@chakra-ui/react";
 import Footer from "../components/Footer";
-import GetEthValueFromParam from "../components/GetEthValueFromParam";
+//import GetEthValueFromParam from "../components/GetEthValueFromParam";
+
+import dynamic from "next/dynamic";
+
+const GetEthValueFromParam = dynamic(
+  () => import("../components/GetEthValueFromParam"),
+  {
+    ssr: false,
+  },
+);
 
 function App() {
   const [ethConversionRate, setEthConversionRate] = useState(0);
@@ -42,7 +51,9 @@ function App() {
         className="h-screen w-screen font-black text-6xl bg-radial-gradient"
         id="wrapper"
       >
-        <GetEthValueFromParam ethConversionRate={ethConversionRate} />
+        <Suspense>
+          <GetEthValueFromParam ethConversionRate={ethConversionRate} />
+        </Suspense>
       </Center>
       <Footer />
     </>
