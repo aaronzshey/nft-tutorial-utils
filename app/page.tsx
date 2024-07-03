@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React from "react";
-import { Suspense } from "react";
+import { Suspense, ChangeEvent } from "react";
 import nextLogo from "../public/next.svg";
 import vercelLogo from "../public/vercel.svg";
 import polygonLogo from "../public/polygon-io.svg";
@@ -10,7 +10,16 @@ import alchemyLogo from "../public/alchemy.svg";
 import ethereumLogo from "../public/ethereum.svg";
 import getData from "./fetch";
 import { useState, useEffect } from "react";
-import { Center, Box, HStack, VStack, Text } from "@chakra-ui/react";
+import {
+  Center,
+  Box,
+  HStack,
+  VStack,
+  Text,
+  FormControl,
+  Input,
+  AbsoluteCenter,
+} from "@chakra-ui/react";
 
 import { polygonResponseType } from "./polygonType";
 
@@ -19,6 +28,8 @@ function App() {
     {} as polygonResponseType,
   );
 
+  const [formResponse, setFormResponse] = useState({});
+  /* TODO: export this into a component */
   let ethValueRaw = useSearchParams().get("ethValue");
   let ethValue = 0.001;
   if (ethValueRaw) {
@@ -41,20 +52,32 @@ function App() {
   } else {
     ethInUSD = polygonResponse.results[0].c;
   }
+
+  //https://stackoverflow.com/a/72415437/12981681
+  function handleForm(e: ChangeEvent<HTMLInputElement>) {
+    e.preventDefault();
+    console.log(e.currentTarget.value);
+  }
   return (
     <Suspense>
       <>
         <Center className="h-screen w-screen" id="wrapper">
-          <Center className="h-screen w-screen font-black text-6xl bg-radial-gradient">
-            <Suspense>
-              <Text className="inherit">{ethValue}</Text>
-            </Suspense>
+          <Center className="h-screen w-screen font-black text-6xl bg-radial-gradient outline-black outline-1">
+            <FormControl>
+              <Input
+                className="text-right w-44 overflow-x-scroll border-b-2 border-black bg-transparent"
+                defaultValue="0.001"
+                onChange={handleForm}
+              />
+            </FormControl>
             <Image
               src={ethereumLogo}
               alt="Ethereum Logo"
-              className="h-1/12 w-1/12 p-4"
+              className="p-4"
+              width="100"
+              height="100"
             />
-            = ${(ethInUSD * ethValue).toFixed(3)}
+            <Text>= ${(ethInUSD * ethValue).toFixed(3)}</Text>
           </Center>
 
           <VStack
