@@ -6,7 +6,7 @@ import vercelLogo from "../public/vercel.svg";
 import polygonLogo from "../public/polygon-io.svg";
 import alchemyLogo from "../public/alchemy.svg";
 
-function Footer() {
+export default function Footer() {
   return (
     <VStack
       id="footer-parent"
@@ -60,5 +60,3 @@ function Footer() {
     </VStack>
   );
 }
-
-export default Footer;

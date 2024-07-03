@@ -1,3 +1,4 @@
+//https://polygon.io/docs/crypto/get_v2_aggs_ticker__cryptoticker__prev
 export type polygonResponseType = {
   adjusted: boolean;
   queryCount: number;

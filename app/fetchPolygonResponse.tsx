@@ -2,7 +2,7 @@
 
 import { polygonResponseType, polygonData } from "./polygonType";
 
-export default async function fetchEthConversionRate(): Promise<polygonResponseType> {
+export default async function fetchPolygonResponse(): Promise<polygonResponseType> {
   try {
     const resp = await fetch(
       `https://api.polygon.io/v2/aggs/ticker/X:ETHUSD/prev?adjusted=true&apiKey=${process.env.POLYGON_KEY}`,
