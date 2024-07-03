@@ -12,17 +12,7 @@ import fetchPolygonResponse from "./fetchPolygonResponse";
 //component imports
 import { Center } from "@chakra-ui/react";
 import Footer from "../components/Footer";
-//import GetEthValueFromParam from "../components/GetEthValueFromParam";
-
-import dynamic from "next/dynamic";
-
-//i have no idea what the problem is anymore
-const GetEthValueFromParam = dynamic(
-  () => import("../components/GetEthValueFromParam"),
-  {
-    ssr: false,
-  },
-);
+import GetEthValueFromParam from "../components/GetEthValueFromParam";
 
 function App() {
   const [ethConversionRate, setEthConversionRate] = useState(0);
